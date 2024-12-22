@@ -6,7 +6,7 @@ export function PlayerPad(props: Player) {
    return (
       <div>
          <section>
-            <h2>{player.name}</h2>
+            <h2></h2>
             <p>Score: {player.score}</p>
          </section>
          <section></section>

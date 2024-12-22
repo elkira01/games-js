@@ -20,6 +20,7 @@ export type SlotType = {
 
 export type BoardType = {
    slots: SlotType[]
+   isFrozen?: boolean
 }
 
 export type ConnectFourState = {
@@ -31,10 +32,8 @@ export type ConnectFourState = {
 
 export type ConnectFourAction = {
    makeMove: (row: number, col: number) => void
-   // checkDraw: () => void
    resetGame: () => void
+   freezeBoard: () => void
    changePlayer: () => void
-   // updateTurn: () => void
-   // undoMove: () => void
 }
 export type ConnectFourStoreType = ConnectFourAction & ConnectFourState

@@ -2,11 +2,16 @@ import { useStore } from 'zustand/react'
 import { connectFourStore } from '@/app/connect-four/store'
 
 export const useConnectFour = () => {
-   const state = useStore(connectFourStore)
+   const { makeMove, changePlayer, currentPlayer, board } = useStore(connectFourStore)
+
+   const onPlay = (row: number, col: number) => {
+      makeMove(row, col)
+      changePlayer()
+   }
 
    return {
-      board: state.board,
-      currentPlayer: state.currentPlayer,
-      turnCount: state.turnCount,
+      onPlay,
+      player: currentPlayer,
+      slots: board.slots,
    }
 }

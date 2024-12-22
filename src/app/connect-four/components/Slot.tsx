@@ -1,23 +1,27 @@
-import { JSX, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SlotType, Player, PlayerColor } from '../types'
 
 export interface SlotProps {
-   children?: JSX.Element
    row: number
    col: number
    playerColor?: Player['color']
    onClick?: (row: number, col: number) => void
+   isPlayable: boolean
 }
-export function Slot({ row, col, onClick, playerColor }: SlotProps) {
+export function Slot({ row, col, onClick, playerColor, isPlayable }: SlotProps) {
    const [state, setState] = useState<Pick<SlotType, 'color' | 'isPlayable'>>({
       color: PlayerColor.NONE,
-      isPlayable: true,
+      isPlayable: isPlayable,
    })
+
+   useEffect(() => {
+      setState({ ...state, isPlayable: isPlayable })
+   }, [isPlayable])
 
    const handleClick = () => {
       if (onClick && state.isPlayable) {
          onClick(row, col)
-         setState({ ...state, color: playerColor ?? PlayerColor.NONE, isPlayable: false })
+         setState({ ...state, color: playerColor ?? PlayerColor.NONE, isPlayable: isPlayable })
       }
    }
 
@@ -25,10 +29,8 @@ export function Slot({ row, col, onClick, playerColor }: SlotProps) {
       <div className="w-[60px] h-[60px] bg-blue-800 flex justify-center items-center border border-blue-900">
          <div
             style={{ backgroundColor: state.color }}
-            className={`w-[45px] h-[45px] rounded-full border-2 border-blue-850 cursor-pointer text-black`}
-            onClick={handleClick}>
-            {col}-{row}
-         </div>
+            className="w-[45px] h-[45px] rounded-full border-2 border-blue-850 cursor-pointer text-black"
+            onClick={handleClick}></div>
       </div>
    )
 }

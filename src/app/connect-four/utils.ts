@@ -10,9 +10,12 @@ export const checkHorizontalPattern = (
    let count = 0
 
    for (let i = 0; i < COLUMNS_COUNT; i++) {
-      if (slots[currentRow * COLUMNS_COUNT + i].color === color) {
+      if (slots[currentRow * COLUMNS_COUNT + i]?.color === color) {
          count++
-      } else count = 0
+      } else {
+         if (count == 4) return true
+         else count = 0
+      }
    }
 
    return count >= 4
@@ -27,9 +30,12 @@ export const checkVerticalPattern = (
    const { slots } = board
 
    for (let i = 0; i < ROWS_COUNT; i++) {
-      if (slots[i * COLUMNS_COUNT + currentCol].color === color) {
+      if (slots[i * COLUMNS_COUNT + currentCol]?.color === color) {
          count++
-      } else count = 0
+      } else {
+         if (count == 4) return true
+         else count = 0
+      }
    }
 
    return count >= 4
@@ -41,12 +47,76 @@ export const checkFirstDiagonalPattern = (
    col: number,
    color: PlayerColor,
 ): boolean => {
-   let count = 0
+   let countUp = 0
+   let countDown = 0
+   const { slots } = board
    let currentRow = row
    let currentCol = col
-   const { slots } = board
 
-   return count >= 4
+   while (currentRow >= 0 && currentCol < COLUMNS_COUNT) {
+      if (slots[currentRow * COLUMNS_COUNT + currentCol]?.color === color) {
+         countUp++
+      } else {
+         if (countUp == 4) return true
+         else countUp = 0
+      }
+      currentRow--
+      currentCol++
+   }
+
+   currentRow = row
+   currentCol = col
+
+   while (currentRow < ROWS_COUNT && currentCol >= 0) {
+      if (slots[currentRow * COLUMNS_COUNT + currentCol]?.color === color) {
+         countDown++
+      } else {
+         if (countDown == 4) return true
+         else countDown = 0
+      }
+      currentRow++
+      currentCol--
+   }
+
+   return countUp >= 4 || countDown >= 4
 }
 
-export const checkSecondDiagonalPattern = () => {}
+export const checkSecondDiagonalPattern = (
+   board: BoardType,
+   row: number,
+   col: number,
+   color: PlayerColor,
+): boolean => {
+   let countUp = 0
+   let countDown = 0
+   const { slots } = board
+   let currentRow = row
+   let currentCol = col
+
+   while (currentRow >= 0 && currentCol >= 0) {
+      if (slots[currentRow * COLUMNS_COUNT + currentCol]?.color === color) {
+         countUp++
+      } else {
+         if (countUp == 4) return true
+         else countUp = 0
+      }
+      currentRow--
+      currentCol--
+   }
+
+   currentRow = row
+   currentCol = col
+
+   while (currentRow < ROWS_COUNT && currentCol < COLUMNS_COUNT) {
+      if (slots[currentRow * COLUMNS_COUNT + currentCol]?.color === color) {
+         countDown++
+      } else {
+         if (countDown == 4) return true
+         else countDown = 0
+      }
+      currentRow++
+      currentCol++
+   }
+
+   return countUp >= 4 || countDown >= 4
+}
