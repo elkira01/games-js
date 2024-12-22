@@ -1,5 +1,5 @@
-import { BoardType, PlayerColor } from '@/app/connect-four/types'
-import { COLUMNS_COUNT, ROWS_COUNT } from '@/app/connect-four/config'
+import { BoardType, PlayerColor } from './types'
+import { COLUMNS_COUNT, ROWS_COUNT } from './config'
 
 export const checkHorizontalPattern = (
    board: BoardType,

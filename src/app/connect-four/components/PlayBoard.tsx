@@ -9,7 +9,7 @@ function PlayBoard() {
 
    return (
       <div className="flex">
-         <div className="flex w-[30%]">pp</div>
+         <div className="flex w-[30%]"></div>
          <div className="flex rounded-lg overflow-clip">
             {[...Array(COLUMNS_COUNT)].map((_, colIndex) => (
                <div key={colIndex} className="flex-col">
@@ -26,7 +26,7 @@ function PlayBoard() {
                </div>
             ))}
          </div>
-         <div className="flex w-[30%]">pp</div>
+         <div className="flex w-[30%]"></div>
       </div>
    )
 }
