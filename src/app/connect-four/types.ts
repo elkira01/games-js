@@ -1,15 +1,8 @@
 export type Player = {
-   id?: number
-   name: string
    color: PlayerColor
    isAI?: boolean
-   isHuman?: boolean
-   score: number
+   score?: number
    victory: boolean
-}
-
-export type BoardType = {
-   slots: SlotType[]
 }
 
 export enum PlayerColor {
@@ -21,6 +14,27 @@ export enum PlayerColor {
 export type SlotType = {
    color?: PlayerColor
    isPlayable: boolean
-   col: number
-   row: number
+   col?: number
+   row?: number
 }
+
+export type BoardType = {
+   slots: SlotType[]
+}
+
+export type ConnectFourState = {
+   board: BoardType
+   currentPlayer: Player
+   turnCount: number
+   players: Player[]
+}
+
+export type ConnectFourAction = {
+   makeMove: (row: number, col: number) => void
+   // checkDraw: () => void
+   resetGame: () => void
+   changePlayer: () => void
+   // updateTurn: () => void
+   // undoMove: () => void
+}
+export type ConnectFourStoreType = ConnectFourAction & ConnectFourState

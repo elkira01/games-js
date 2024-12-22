@@ -2,11 +2,12 @@
 
 import { Slot } from './Slot'
 import { useState } from 'react'
+import { useConnectFour } from '../use-connect-four'
+import { COLUMNS_COUNT, ROWS_COUNT } from '../config'
 
-const COLUMNS_COUNT = 7
-const ROWS_COUNT = 6
 function PlayBoard() {
    const [state, setState] = useState<any>({ col: -1 })
+   const { board } = useConnectFour()
 
    return (
       <div className="flex">
