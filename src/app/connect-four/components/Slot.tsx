@@ -15,7 +15,7 @@ export function Slot({ row, col, onClick, playerColor, isPlayable }: SlotProps) 
    })
 
    useEffect(() => {
-      setState({ ...state, isPlayable: isPlayable })
+      setState(prev => ({ ...prev, isPlayable: isPlayable }))
    }, [isPlayable])
 
    const handleClick = () => {
