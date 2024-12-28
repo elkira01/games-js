@@ -10,7 +10,6 @@ export const checkHorizontalPattern = (
    let count = 0
 
    for (let i = 0; i < COLUMNS_COUNT; i++) {
-      // console.log(slots[currentRow * COLUMNS_COUNT + i]?.color)
       if (slots[currentRow * COLUMNS_COUNT + i]?.color === color) {
          count++
       } else {
@@ -18,7 +17,7 @@ export const checkHorizontalPattern = (
          else count = 0
       }
    }
-   console.log('horizontal', count)
+   // console.log('horizontal', count)
    return count >= 4
 }
 
@@ -38,7 +37,7 @@ export const checkVerticalPattern = (
          else count = 0
       }
    }
-   console.log('vertical', count)
+   // console.log('vertical', count)
 
    return count >= 4
 }
@@ -80,7 +79,7 @@ export const checkFirstDiagonalPattern = (
       currentCol--
    }
 
-   console.log('diag1', countUp, countDown)
+   // console.log('diag1', countUp, countDown)
 
    return countUp >= 4 || countDown >= 4
 }
@@ -122,7 +121,7 @@ export const checkSecondDiagonalPattern = (
       currentCol++
    }
 
-   console.log('diag2', countUp, countDown)
+   // console.log('diag2', countUp, countDown)
 
    return countUp >= 4 || countDown >= 4
 }
