@@ -12,7 +12,7 @@ export enum PlayerColor {
 }
 
 export type SlotType = {
-   color?: PlayerColor
+   color: PlayerColor
    isPlayable: boolean
    col?: number
    row?: number
@@ -32,7 +32,7 @@ export type ConnectFourState = {
 
 export type ConnectFourAction = {
    makeMove: (row: number, col: number) => void
-   resetGame: () => void
+   resetBoard: () => void
    freezeBoard: () => void
    changePlayer: () => void
 }

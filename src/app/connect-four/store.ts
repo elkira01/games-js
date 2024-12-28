@@ -26,13 +26,14 @@ const checkWin = (
    board: ConnectFourState['board'],
    row: number,
    col: number,
-   playerColor: PlayerColor,
 ): boolean => {
+   const slotColor = board.slots[row * COLUMNS_COUNT + col].color
+
    return (
-      checkHorizontalPattern(board, row, playerColor) ||
-      checkVerticalPattern(board, col, playerColor) ||
-      checkFirstDiagonalPattern(board, row, col, playerColor) ||
-      checkSecondDiagonalPattern(board, row, col, playerColor)
+      checkHorizontalPattern(board, row, slotColor) ||
+      checkVerticalPattern(board, col, slotColor) ||
+      checkFirstDiagonalPattern(board, row, col, slotColor) ||
+      checkSecondDiagonalPattern(board, row, col, slotColor)
    )
 }
 
@@ -61,7 +62,7 @@ export const connectFourStore = createStore<ConnectFourStoreType>(set => ({
    turnCount: initialState.turnCount,
    players: initialState.players,
 
-   resetGame: () => set(state => ({ ...state, ...initialState })),
+   resetBoard: () => set(state => ({ ...state, ...initialState })),
 
    freezeBoard: () =>
       set(state => {
@@ -85,9 +86,9 @@ export const connectFourStore = createStore<ConnectFourStoreType>(set => ({
       set(state => {
          const { board, players, currentPlayer, turnCount } = state
          const updatedBoard = [...board.slots]
+         console.log(currentPlayer)
 
          if (updatedBoard[row * COLUMNS_COUNT + col]?.isPlayable) {
-            console.log(row * COLUMNS_COUNT + col, 'is still Playable')
             updatedBoard[row * COLUMNS_COUNT + col] = {
                color: currentPlayer.color,
                isPlayable: false,
@@ -95,18 +96,11 @@ export const connectFourStore = createStore<ConnectFourStoreType>(set => ({
                row,
             }
 
-            const winningCondition = checkWin(
-               { slots: updatedBoard },
-               row,
-               col,
-               currentPlayer.color,
-            )
+            const winningCondition = checkWin({ slots: updatedBoard }, row, col)
 
             if (winningCondition) {
-               console.log(winningCondition)
                players[turnCount % players.length].victory = true
                state.freezeBoard()
-               console.log(state.board)
             }
 
             return {
