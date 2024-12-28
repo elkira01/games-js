@@ -1,12 +1,7 @@
 import { ConnectFourState, ConnectFourStoreType, PlayerColor } from './types'
 import { createStore } from 'zustand/vanilla'
 import { COLUMNS_COUNT, ROWS_COUNT } from '@/app/connect-four/config'
-import {
-   checkFirstDiagonalPattern,
-   checkHorizontalPattern,
-   checkSecondDiagonalPattern,
-   checkVerticalPattern,
-} from '@/app/connect-four/utils'
+import { checkWin } from '@/app/connect-four/_utils/winConditionHelpers'
 
 const initializeBoard = (): ConnectFourState['board'] => {
    const slots = Array(42).fill(null)
@@ -20,21 +15,6 @@ const initializeBoard = (): ConnectFourState['board'] => {
       }
    }
    return { slots: slots }
-}
-
-const checkWin = (
-   board: ConnectFourState['board'],
-   row: number,
-   col: number,
-): boolean => {
-   const slotColor = board.slots[row * COLUMNS_COUNT + col].color
-
-   return (
-      checkHorizontalPattern(board, row, slotColor) ||
-      checkVerticalPattern(board, col, slotColor) ||
-      checkFirstDiagonalPattern(board, row, col, slotColor) ||
-      checkSecondDiagonalPattern(board, row, col, slotColor)
-   )
 }
 
 const initialState: ConnectFourState = {
@@ -62,7 +42,7 @@ export const connectFourStore = createStore<ConnectFourStoreType>(set => ({
    turnCount: initialState.turnCount,
    players: initialState.players,
 
-   resetBoard: () => set(state => ({ ...state, ...initialState })),
+   resetBoard: () => set(state => ({ ...initialState, board: initializeBoard() })),
 
    freezeBoard: () =>
       set(state => {
@@ -79,14 +59,15 @@ export const connectFourStore = createStore<ConnectFourStoreType>(set => ({
    changePlayer: () =>
       set(state => ({
          ...state,
-         currentPlayer: state.players[state.turnCount % state.players.length],
+         currentPlayer: state.currentPlayer.victory
+            ? state.currentPlayer
+            : state.players[state.turnCount % state.players.length],
       })),
 
    makeMove: (row, col) =>
       set(state => {
          const { board, players, currentPlayer, turnCount } = state
          const updatedBoard = [...board.slots]
-         console.log(currentPlayer)
 
          if (updatedBoard[row * COLUMNS_COUNT + col]?.isPlayable) {
             updatedBoard[row * COLUMNS_COUNT + col] = {

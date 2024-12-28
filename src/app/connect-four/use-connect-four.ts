@@ -1,6 +1,6 @@
 import { useStore } from 'zustand/react'
 import { connectFourStore } from '@/app/connect-four/store'
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 
 export const useConnectFour = () => {
    const { makeMove, changePlayer, currentPlayer, board, resetBoard, freezeBoard } =
@@ -14,6 +14,10 @@ export const useConnectFour = () => {
    const reset = useCallback(() => resetBoard(), [])
 
    const pause = useCallback(() => freezeBoard(), [])
+
+   useEffect(() => {
+      console.log(currentPlayer)
+   }, [currentPlayer])
 
    return {
       onPlay,

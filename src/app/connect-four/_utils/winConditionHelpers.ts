@@ -1,5 +1,5 @@
-import { BoardType, PlayerColor } from './types'
-import { COLUMNS_COUNT, ROWS_COUNT } from './config'
+import { BoardType, ConnectFourState, PlayerColor } from '../types'
+import { COLUMNS_COUNT, ROWS_COUNT } from '../config'
 
 export const checkHorizontalPattern = (
    board: BoardType,
@@ -17,7 +17,7 @@ export const checkHorizontalPattern = (
          else count = 0
       }
    }
-   // console.log('horizontal', count)
+   console.log('horizontal', count)
    return count >= 4
 }
 
@@ -37,7 +37,7 @@ export const checkVerticalPattern = (
          else count = 0
       }
    }
-   // console.log('vertical', count)
+   console.log('vertical', count)
 
    return count >= 4
 }
@@ -55,18 +55,19 @@ export const checkFirstDiagonalPattern = (
    let currentCol = col
 
    while (currentRow >= 0 && currentCol < COLUMNS_COUNT) {
-      if (slots[currentRow * COLUMNS_COUNT + currentCol]?.color === color) {
-         countUp++
-      } else {
-         if (countUp == 4) return true
-         else countUp = 0
-      }
+      // if (slots[currentRow * COLUMNS_COUNT + currentCol]?.color === color) {
+      //    countUp++
+      // } else {
+      //    if (countUp == 4) return true
+      //    else countUp = 0
+      // }
+      countUp++
       currentRow--
       currentCol++
    }
 
-   currentRow = row
-   currentCol = col
+   // currentRow = row
+   // currentCol = col
 
    while (currentRow < ROWS_COUNT && currentCol >= 0) {
       if (slots[currentRow * COLUMNS_COUNT + currentCol]?.color === color) {
@@ -79,9 +80,9 @@ export const checkFirstDiagonalPattern = (
       currentCol--
    }
 
-   // console.log('diag1', countUp, countDown)
+   console.log('diag1', countDown)
 
-   return countUp >= 4 || countDown >= 4
+   return countDown >= 4
 }
 
 export const checkSecondDiagonalPattern = (
@@ -97,18 +98,19 @@ export const checkSecondDiagonalPattern = (
    let currentCol = col
 
    while (currentRow >= 0 && currentCol >= 0) {
-      if (slots[currentRow * COLUMNS_COUNT + currentCol]?.color === color) {
-         countUp++
-      } else {
-         if (countUp == 4) return true
-         else countUp = 0
-      }
+      // if (slots[currentRow * COLUMNS_COUNT + currentCol]?.color === color) {
+      //    countUp++
+      // } else {
+      //    if (countUp == 4) return true
+      //    else countUp = 0
+      // }
+      countUp++
       currentRow--
       currentCol--
    }
 
-   currentRow = row
-   currentCol = col
+   // currentRow = row
+   // currentCol = col
 
    while (currentRow < ROWS_COUNT && currentCol < COLUMNS_COUNT) {
       if (slots[currentRow * COLUMNS_COUNT + currentCol]?.color === color) {
@@ -121,7 +123,22 @@ export const checkSecondDiagonalPattern = (
       currentCol++
    }
 
-   // console.log('diag2', countUp, countDown)
+   console.log('diag2', countDown)
 
-   return countUp >= 4 || countDown >= 4
+   return countDown >= 4
+}
+
+export const checkWin = (
+   board: ConnectFourState['board'],
+   row: number,
+   col: number,
+): boolean => {
+   const slotColor = board.slots[row * COLUMNS_COUNT + col].color
+
+   return (
+      checkHorizontalPattern(board, row, slotColor) ||
+      checkFirstDiagonalPattern(board, row, col, slotColor) ||
+      checkVerticalPattern(board, col, slotColor) ||
+      checkSecondDiagonalPattern(board, row, col, slotColor)
+   )
 }

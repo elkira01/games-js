@@ -5,7 +5,7 @@ import { useConnectFour } from '../use-connect-four'
 import { COLUMNS_COUNT, ROWS_COUNT } from '../config'
 
 function PlayBoard() {
-   const { onPlay, slots, reset, pause } = useConnectFour()
+   const { onPlay, slots, reset, pause, player } = useConnectFour()
 
    return (
       <div className="flex-col">
@@ -29,6 +29,12 @@ function PlayBoard() {
             <button className="btn btn-primary text-white" onClick={pause}>
                Pause
             </button>
+            <div>
+               <button className="btn text-white" style={{ background: player.color }}>
+                  PLAYER
+               </button>
+               {player.victory ? <span className="mx-2">VICTORY!!!</span> : ''}
+            </div>
             <button className="btn btn-error text-white" onClick={reset}>
                Reset
             </button>

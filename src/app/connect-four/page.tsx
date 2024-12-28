@@ -1,6 +1,6 @@
 'use client'
 
-import PlayBoard from './components/PlayBoard'
+import PlayBoard from '@/app/connect-four/_components/PlayBoard'
 import { Fragment } from 'react'
 
 export default function Page() {
